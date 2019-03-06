@@ -6,10 +6,12 @@ library(xlsx)
 w.start()
 
 
-fields <- read_xlsx("fields.xlsx", col_names = TRUE)
+fields <- read_xlsx("fields.xlsx", sheet = "description",col_names = TRUE)
 flds <- paste(fields$fields, sep = "", collapse = ", ")
 
 ticker <- read_xlsx("CB_list.xlsx", col_names = TRUE)
+TICKER <- paste(ticker$ticker, sep = "", collapse = ", ")
+
 
 date1 <- as.Date("2019/1/1")
 date2 <- Sys.Date() - 1
@@ -22,4 +24,6 @@ data_fetch <- function(ticker) {
 
 data <- lapply(ticker$ticker, data_fetch) 
 data <- do.call(bind_rows, data)
+
+snap <- w.wss(TICKER, flds)$Data
 
