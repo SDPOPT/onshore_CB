@@ -1,0 +1,79 @@
+---
+title: "可转债周报"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(DT)
+library(formattable)
+library(RSQLite)
+library(tidyverse)
+
+cb_list <- readRDS("cb_list.rds")
+
+
+
+```
+
+Row {.tabset .tabset-fade}
+-----------------------------------------------------------------------
+
+### 境内可转债
+
+```{r}
+
+status <- cb_list$status
+
+status <- formattable(status)
+
+as.datatable(status, options = list(pageLength = 25))
+
+```
+
+### 下修统计
+```{r}
+
+modified <- cb_list$modified
+
+modified <- formattable(modified)
+
+as.datatable(modified, options = list(pageLength = 25))
+
+```
+
+### 回售统计
+```{r}
+
+put <- cb_list$put
+
+put <- formattable(put)
+
+as.datatable(put, options = list(pageLength = 25))
+
+```
+
+### 赎回统计
+```{r}
+
+call <- cb_list$call
+
+call <- formattable(call)
+
+as.datatable(call, options = list(pageLength = 25))
+
+```
+
+### 市场统计
+```{r}
+
+
+return <- readRDS("return.rds")
+
+return <- formattable(return)
+
+as.datatable(return, options = list(pageLength = 25))
+
+```
